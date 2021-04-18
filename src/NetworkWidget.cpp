@@ -1,5 +1,5 @@
-#include "NetworkWidget.h"
-#include "Constants.h"
+#include "../include/NetworkWidget.h"
+#include "../include/Constants.h"
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <iostream>

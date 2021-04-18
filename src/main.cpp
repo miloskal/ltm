@@ -1,4 +1,4 @@
-#include "ltm.h"
+#include "../include/ltm.h"
 #include <QApplication>
 
 int main(int argc, char** argv)

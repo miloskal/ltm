@@ -1,12 +1,12 @@
-#include "ProcessTable.h"
+#include "../include/ProcessTable.h"
 #include <QList>
 #include <QTimer>
 #include <algorithm>
 #include <bits/stdc++.h>
 #include <unistd.h> // for sysconf()
 
-#include "Constants.h"
-#include "ShellCommands.h"
+#include "../include/Constants.h"
+#include "../include/ShellCommands.h"
 
 ProcessTable::
 ProcessTable(QWidget *parent) : QTableView(parent)

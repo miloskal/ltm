@@ -1,8 +1,8 @@
-#include "CpuUtilizationWidget.h"
+#include "../include/CpuUtilizationWidget.h"
 #include <unistd.h> // for sysconf()
 #include <sstream>
 #include <iostream>
-#include "ShellCommands.h"
+#include "../include/ShellCommands.h"
 
 CpuUtilizationWidget::
 CpuUtilizationWidget(QWidget *parent) : AbstractGraph(parent)

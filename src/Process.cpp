@@ -1,4 +1,4 @@
-#include "Process.h"
+#include "../include/Process.h"
 
 Process::Process(long pid_, QString name_, QString user_, double cpuUsage_, double memUsage_)
 {
