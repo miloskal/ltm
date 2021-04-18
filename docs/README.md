@@ -2,7 +2,7 @@
 
 ltm is lightweight gui-like qt5-based linux task manager.
 
-<img src="processes.png" width="200"> <img src="performance.png" width="200">
+<img src="processes.png" width="400"> <img src="performance.png" width="400">
 
 ## Prerequisites
 
