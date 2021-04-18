@@ -2,6 +2,8 @@
 
 ltm is lightweight gui-like qt5-based linux task manager.
 
+[!alt text] (processes.png)
+
 ## Prerequisites
 
 - lm-sensors. Can be installed by:
