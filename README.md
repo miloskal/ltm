@@ -8,12 +8,15 @@ ltm is lightweight gui-like qt5-based linux task manager.
 ```bash
 sudo apt-get install lm-sensors
 ```
-- c++ compiler like g++
+- c++ compiler like g++. Can be installed by:
+```bash
+sudo apt-get install g++
+```
 - qt5. Can be installed by:
 ```bash
 sudo apt-get install qt5-default
 ```
-- Some GNU tools like `grep`, `cat`, `tr`, `cut`, `free` which basically come
+- Some GNU tools like `grep`, `cat`, `tr`, `cut`, `free`, `tail` which basically come
 preinstalled on vast majority of Linux distros.
 
 ## Build and Install
