@@ -35,7 +35,7 @@ Eventually, you may need to enable execution of `lsb` binary by `sudo chmod +x l
 ## Note
 
 Application is initially written and tested on Ryzen 5 3500u CPU, Kubuntu 20.04.
-Hence, minimal changes of SHELLCMD_ macros may be needed in `include/ShellCommands.h` for other CPUs/OSes.
+Hence, minimal changes of SHELLCMD_ macros may be needed in `include/ShellCommands.h` for other CPUs / OSes.
 
 ## Under the hood
 
