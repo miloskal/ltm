@@ -21,7 +21,7 @@ preinstalled on vast majority of Linux distros.
 
 ## Build and Install
 
-Open terminal and type `make`. Then, lsb executable should be created.
+Open terminal and type `make`. Then, `lsb` executable should be created.
 Eventually, you may need to enable execution of `lsb` binary by `sudo chmod +x lsb`.
 
 ## Note
