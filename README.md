@@ -31,10 +31,10 @@ Hence, minimal changes of SHELLCMD_ macros may be needed in `include/ShellComman
 
 ## Under the hood
 
-CPU utilization is calculated from `/proc/stat` file.
-CPU temperature is obtained from `sensors`(`lm-sensors` package) output.
-Memory Utilization is obtained by `free` command in bash.
-Network bandwidth is calculated by iterating through all network interfaces in
-`/sys/class/net` directory.
-Processes in processes tab are parsed from `top` output.
-Plotting in performance tab is done using QCustomPlot objects to gain maximum performance.
+- CPU utilization is calculated from `/proc/stat` file
+- CPU temperature is obtained from `sensors`(`lm-sensors` package) output
+- Memory Utilization is obtained by `free` command in bash
+- Network bandwidth is calculated by iterating through all network interfaces in
+`/sys/class/net` directory
+- Processes in processes tab are parsed from `top` output
+- Plotting in performance tab is done using QCustomPlot objects to gain maximum performance
