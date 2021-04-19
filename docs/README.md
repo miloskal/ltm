@@ -18,7 +18,7 @@ sudo apt-get install g++
 ```bash
 sudo apt-get install qt5-default
 ```
-- Some GNU tools like `grep`, `cat`, `tr`, `cut`, `free`, `tail` which basically come
+- Some GNU tools like `top`, `grep`, `cat`, `tr`, `cut`, `free`, `tail` which basically come
 preinstalled on vast majority of Linux distros.
 
 ## Build and Install
