@@ -45,3 +45,7 @@ Hence, minimal changes of SHELLCMD_ macros may be needed in `include/ShellComman
 `/sys/class/net` directory
 - Processes in processes tab are parsed from `top` output
 - Plotting in performance tab is done using `QCustomPlot` objects to gain maximum performance
+
+## Licence
+
+[GPL v3] (https://choosealicense.com/licenses/gpl-3.0/)
