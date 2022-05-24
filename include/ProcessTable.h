@@ -64,8 +64,8 @@ private:
   void addProcessToVector(std::string line);
   void updateTable();
   void parseProcesses();
-  void mouseMoveEvent(QMouseEvent*);
-  void leaveEvent(QEvent*);
+  void mouseMoveEvent(QMouseEvent*) override;
+  void leaveEvent(QEvent*) override;
   void sendSignalToProcess(const Process& p);
 
   // action handlers

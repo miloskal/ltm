@@ -4,6 +4,7 @@
 #include <QVBoxLayout>
 #include <iostream>
 #include <fstream>
+#include <QDebug>
 
 // for chdir(), opendir() and readdir()
 #include <unistd.h>
@@ -82,7 +83,7 @@ NetworkWidget(QWidget* parent) : AbstractGraph(parent)
  
   // connect signals with slots
   connect(timer, &QTimer::timeout, this, &NetworkWidget::getNetworkBandwidth);
-  
+
   // start
   timer->start(timeoutInterval);
 }
@@ -242,7 +243,7 @@ getNetworkBandwidth()
   char s[BUFSIZE];
   FILE* fp;
   long long sumDownload = 0, sumUpload = 0;
-  double newDownValue, newUpValue;
+  double newDownValue = 0, newUpValue = 0;
 
   dp = opendir(NETWORK_BASE_DIR);
   if(dp == nullptr)
@@ -256,21 +257,23 @@ getNetworkBandwidth()
     if(entry->d_type == DT_DIR || entry->d_type == DT_LNK)
     {
       strncpy(s, NETWORK_BASE_DIR, BUFSIZE);
-      strcat(s, entry->d_name);
-      strcat(s, "/");
-      strcat(s, "statistics/");
+      strncat(s, entry->d_name, BUFSIZE);
+      strncat(s, "/statistics/", BUFSIZE);
       if(chdir(s) != 0)
         exit(8);
       fp = fopen("rx_bytes", "r");
       if(fp == nullptr)
         exit(12);
-      fgets(s, BUFSIZE, fp);
+      if (fgets(s, BUFSIZE, fp) == NULL)
+          exit(14);
       sumDownload += atoll(s);
       fclose(fp);
       fp = fopen("tx_bytes", "r");
       if(fp == nullptr)
         exit(13);
-      fgets(s, BUFSIZE, fp);
+      memset(s, 0, BUFSIZE);
+      if (fgets(s, BUFSIZE, fp) == NULL)
+          exit(15);
       sumUpload += atoll(s);
       fclose(fp);
     }
@@ -320,8 +323,11 @@ getNetworkBandwidth()
     newDownValue = networkDownloadBandwidth;
     newUpValue = networkUploadBandwidth;
   }
-  y.push_back(newDownValue);
-  y1.push_back(newUpValue);
+  if(iteration > 0){
+    qDebug() << "pushing upload sum: " + QString::number(newUpValue);
+    y.push_back(newDownValue);
+    y1.push_back(newUpValue);
+  }
   
   // if vectors reached frameSize elements, remove first element
   if(y.size() > frameSize)
@@ -340,7 +346,6 @@ getNetworkBandwidth()
   else
     iteration++;
 }
-
 
 
 void NetworkWidget::

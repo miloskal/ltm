@@ -12,8 +12,8 @@ private:
   long long totalMemory;
   QString totalMemoryQString;
 
-  void updateGraph(int oldFrameSize, int newFrameSize);
-  void initializeVectors(int frameSize); 
+  void updateGraph(int oldFrameSize, int newFrameSize) override;
+  void initializeVectors(int frameSize) override;
 private slots:
   void getMemoryStatus();
 };

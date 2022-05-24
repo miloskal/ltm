@@ -6,8 +6,8 @@ public:
   NetworkWidget(QWidget *parent = nullptr);
   ~NetworkWidget();
 
-  void updateGraph(int, int);
-  void initializeVectors(int n);
+  void updateGraph(int, int) override;
+  void initializeVectors(int n) override;
   void scaleGraph(long long);
   void getNetworkBandwidth();
   void convertVectors(QString&, QString&);

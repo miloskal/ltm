@@ -4,7 +4,7 @@
 #include <algorithm>
 #include <bits/stdc++.h>
 #include <unistd.h> // for sysconf()
-
+#include <QMouseEvent>
 #include "../include/Constants.h"
 #include "../include/ShellCommands.h"
 

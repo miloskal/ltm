@@ -113,7 +113,7 @@ CpuUtilizationWidget::
 getCpuTemperature()
 {
   std::string s = executeShellCommand(SHELLCMD_GET_CPU_TEMPERATURE);
-  QString q = QString::fromStdString(s);
+  QString q = QString::fromStdString(s).remove("\n");
   cpuTemperatureVal->setText(q);
   std::string s2 = s.substr(0,4);
   q = QString::fromStdString(s2);

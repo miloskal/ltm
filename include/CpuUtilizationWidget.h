@@ -20,6 +20,6 @@ private:
   void getCpuUtilization();
   void getCpuTemperature();
   void updateWidget();
-  void initializeVectors(int n);
-  void updateGraph(int oldFrameSize, int newFrameSize);
+  void initializeVectors(int n) override;
+  void updateGraph(int oldFrameSize, int newFrameSize) override;
 };
