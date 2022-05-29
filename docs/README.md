@@ -6,35 +6,38 @@ ltm is lightweight gui-like qt5-based linux task manager.
 
 ## Prerequisites
 
-- lm-sensors. Can be installed by:
+- C++ compiler, lm-sensors and Qt5 development files:
 ```bash
-sudo apt-get install lm-sensors
+sudo apt-get install g++ lm-sensors qtbase5-dev
 ```
-- c++ compiler like g++. Can be installed by:
-```bash
-sudo apt-get install g++
-```
-- qt5. Can be installed by:
-```bash
-sudo apt-get install qt5-default
-```
-- Some GNU tools like `top`, `grep`, `cat`, `tr`, `cut`, `free`, `tail` which basically come
+
+- GNU tools like `top`, `grep`, `cat`, `tr`, `cut`, `free`, `tail` which basically come
 preinstalled on vast majority of Linux distros.
 
 ## Build and Install
+Eighter:
 
-Open terminal and type 
+1) Open terminal and type 
 ```bash
 qmake
 make
 ```
-Then, `lsb` executable should be created.
+or
+
+2) Build project using Qt Creator.
+
+## Running
+
+After build process finishes, `lsb` executable should be created.
 Eventually, you may need to enable execution of `lsb` binary by `sudo chmod +x lsb`.
 
 ## Note
 
-Application is initially written and tested on Ryzen 5 3500u CPU, Kubuntu 20.04.
-Hence, minimal changes of SHELLCMD_ macros may be needed in `include/ShellCommands.h` for other CPUs / Linux Distros.
+Application is tested on:
+- Ryzen 5 3500u CPU, Kubuntu 20.04 
+- Ryzen 7 4700u CPU, Kubuntu 22.04
+
+For some other system configurations, minimal changes of SHELLCMD_ macros may be needed in `include/ShellCommands.h` in order for application to work properly.
 
 ## Under the hood
 
