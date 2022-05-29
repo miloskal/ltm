@@ -15,7 +15,7 @@ sudo apt-get install g++ lm-sensors qtbase5-dev
 preinstalled on vast majority of Linux distros.
 
 ## Build and Install
-Eighter:
+Either
 
 1) Open terminal and type 
 ```bash
@@ -29,7 +29,7 @@ or
 ## Running
 
 After build process finishes, `lsb` executable should be created.
-Eventually, you may need to enable execution of `lsb` binary by `sudo chmod +x lsb`.
+Eventually, you may need to enable execution of `lsb` binary by `chmod +x lsb`.
 
 ## Note
 
