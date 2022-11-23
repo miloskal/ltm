@@ -28,8 +28,8 @@ or
 
 ## Running
 
-After build process finishes, `lsb` executable should be created.
-Eventually, you may need to enable execution of `lsb` binary by `chmod +x lsb`.
+After build process finishes, `ltm` executable should be created.
+Eventually, you may need to enable execution of `ltm` binary by `chmod +x ltm`.
 
 ## Note
 
