@@ -12,9 +12,9 @@ CpuUtilizationWidget(QWidget *parent) : AbstractGraph(parent)
   graph->yAxis->setRange(0, 100);
   graph->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
   auto labelsWidget = new QWidget(this);
-  cpuUtilizationLbl = new QLabel("Cpu Utilization:", labelsWidget);
+  cpuUtilizationLbl = new QLabel("CPU Utilization:", labelsWidget);
   cpuUtilizationVal = new QLabel("", labelsWidget);
-  cpuTemperatureLbl = new QLabel("Cpu Temperature:", labelsWidget);
+  cpuTemperatureLbl = new QLabel("CPU Temperature:", labelsWidget);
   cpuTemperatureVal = new QLabel("", labelsWidget);
   cpuUtilizationLbl->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
   cpuUtilizationVal->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
