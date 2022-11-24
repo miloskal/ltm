@@ -2,7 +2,7 @@
 
 ltm is lightweight system monitor for Linux based on Qt5.
 
-<img src="processes.png" width="400"> <img src="performance.png" width="400">
+<img src="processes.png" width="394"> <img src="performance.png" width="394">
 
 ### Prerequisites
 
