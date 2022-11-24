@@ -8,6 +8,7 @@ ltm is lightweight system monitor for Linux based on Qt5.
 
 - C++ compiler, lm-sensors and Qt5 development files:
 ```bash
+sudo apt-get update
 sudo apt-get install g++ lm-sensors qtbase5-dev
 ```
 
