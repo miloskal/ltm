@@ -368,39 +368,60 @@ void
 ProcessTable::
 sortProcesses()
 {
-  
-  if(sortCriterion == SORT_BY_PID_ASCENDING)
-    std::sort(processes->begin(), processes->end(), [] (Process p1, Process p2) {return p1.getPid() < p2.getPid(); });
-  
-  else if(sortCriterion == SORT_BY_PID_DESCENDING)
-    std::sort(processes->begin(), processes->end(), [] (Process p1, Process p2) {return p1.getPid() > p2.getPid(); });
-  
-  else if(sortCriterion == SORT_BY_CPU_ASCENDING)
-    std::sort(processes->begin(), processes->end(), [] (Process p1, Process p2) {return p1.getCpuUsage() < p2.getCpuUsage(); });
-  
-  else if(sortCriterion == SORT_BY_CPU_DESCENDING)
-    std::sort(processes->begin(), processes->end(), [] (Process p1, Process p2) {return p1.getCpuUsage() > p2.getCpuUsage(); });
-  
-  else if(sortCriterion == SORT_BY_MEM_ASCENDING)
-    std::sort(processes->begin(), processes->end(), [] (Process p1, Process p2) {return p1.getMemUsage() < p2.getMemUsage(); });
-  
-  else if(sortCriterion == SORT_BY_MEM_DESCENDING)
-    std::sort(processes->begin(), processes->end(), [] (Process p1, Process p2) {return p1.getMemUsage() > p2.getMemUsage(); });
-  
-  else if(sortCriterion == SORT_BY_NAME_ASCENDING)
-    std::sort(processes->begin(), processes->end(), [] (Process p1, Process p2) {return p1.getName() < p2.getName(); });
-  
-  else if(sortCriterion == SORT_BY_NAME_DESCENDING)
-    std::sort(processes->begin(), processes->end(), [] (Process p1, Process p2) {return p1.getName() > p2.getName(); });
-  
-  else if(sortCriterion == SORT_BY_USER_ASCENDING)
-    std::sort(processes->begin(), processes->end(), [] (Process p1, Process p2) {return p1.getUser() < p2.getUser(); });
-  
-  else if(sortCriterion == SORT_BY_USER_DESCENDING)
-    std::sort(processes->begin(), processes->end(), [] (Process p1, Process p2) {return p1.getUser() > p2.getUser(); });
+  switch(sortCriterion){
+  case SORT_BY_PID_ASCENDING:
+    std::sort(processes->begin(), processes->end(), [] (Process p1, Process p2)
+    {return p1.getPid() < p2.getPid();});
+  break;
 
-  else
-    return;
+  case SORT_BY_PID_DESCENDING:
+    std::sort(processes->begin(), processes->end(), [] (Process p1, Process p2)
+    {return p1.getPid() > p2.getPid();});
+  break;
+
+  case SORT_BY_CPU_ASCENDING:
+    std::sort(processes->begin(), processes->end(), [] (Process p1, Process p2)
+    {return p1.getCpuUsage() < p2.getCpuUsage();});
+  break;
+
+  case SORT_BY_CPU_DESCENDING:
+    std::sort(processes->begin(), processes->end(), [] (Process p1, Process p2)
+    {return p1.getCpuUsage() > p2.getCpuUsage();});
+  break;
+
+  case SORT_BY_MEM_ASCENDING:
+    std::sort(processes->begin(), processes->end(), [] (Process p1, Process p2)
+    {return p1.getMemUsage() < p2.getMemUsage();});
+  break;
+
+  case SORT_BY_MEM_DESCENDING:
+    std::sort(processes->begin(), processes->end(), [] (Process p1, Process p2)
+    {return p1.getMemUsage() > p2.getMemUsage();});
+  break;
+
+  case SORT_BY_NAME_ASCENDING:
+    std::sort(processes->begin(), processes->end(), [] (Process p1, Process p2)
+    {return p1.getName() < p2.getName();});
+  break;
+
+  case SORT_BY_NAME_DESCENDING:
+    std::sort(processes->begin(), processes->end(), [] (Process p1, Process p2)
+    {return p1.getName() > p2.getName();});
+  break;
+
+  case SORT_BY_USER_ASCENDING:
+    std::sort(processes->begin(), processes->end(), [] (Process p1, Process p2)
+    {return p1.getUser() < p2.getUser();});
+  break;
+
+  case SORT_BY_USER_DESCENDING:
+    std::sort(processes->begin(), processes->end(), [] (Process p1, Process p2)
+    {return p1.getUser() > p2.getUser();});
+  break;
+
+  default:
+  break;
+  }
 }
 
 
