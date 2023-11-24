@@ -73,6 +73,8 @@ private:
 
 private slots:
   void onClickedColumn(int col);
+  void restartTimer();
+
 signals:
   void hoverIndexChanged(QModelIndex index);
   void leaveTableEvent();

@@ -5,6 +5,8 @@
 #include <bits/stdc++.h>
 #include <unistd.h> // for sysconf()
 #include <QMouseEvent>
+#include <QGuiApplication> // for QGuiApplication::mouseButtons
+#include <Qt> // for Qt::LeftButton
 #include "../include/Constants.h"
 #include "../include/ShellCommands.h"
 
@@ -58,6 +60,8 @@ ProcessTable(QWidget *parent) : QTableView(parent)
   connect(this, &ProcessTable::leaveTableEvent, rowHoverDelegate, &RowHoverDelegate::onLeaveTableEvent);
   connect(killSelectedProcesses, &QAction::triggered, this, &ProcessTable::onKillSelectedProcesses);
   
+  connect(vSlider, &QScrollBar::valueChanged, this, &ProcessTable::restartTimer);
+
   // start
   networkDownloadBandwidth = 0;
   networkUploadBandwidth = 0;
@@ -67,6 +71,13 @@ ProcessTable(QWidget *parent) : QTableView(parent)
   getCpuUtilization();
   getNetworkBandwidth();
   parseProcessesAndUpdateTable();
+  timer->start(TIMEOUT_INTERVAL);
+}
+
+void
+ProcessTable::
+restartTimer()
+{
   timer->start(TIMEOUT_INTERVAL);
 }
 
@@ -101,9 +112,12 @@ void
 ProcessTable::
 parseProcessesAndUpdateTable()
 {
-  parseProcesses();
-  sortProcesses();
-  updateTable();
+  auto isLMBPressed = QGuiApplication::mouseButtons() & Qt::LeftButton;
+  if(!isLMBPressed){
+    parseProcesses();
+    sortProcesses();
+    updateTable();
+  }
 }
 
 void 
