@@ -67,6 +67,7 @@ private:
   void mouseMoveEvent(QMouseEvent*) override;
   void leaveEvent(QEvent*) override;
   void sendSignalToProcess(const Process& p);
+  void cleanUp(); // remove residuals spawned in previous timer iteration
 
   // action handlers
   void onKillSelectedProcesses();

@@ -74,6 +74,7 @@ CpuUtilizationWidget(QWidget *parent) : AbstractGraph(parent)
 CpuUtilizationWidget::
 ~CpuUtilizationWidget()
 {
+  delete font;
   delete conPen;
   delete cpuUtilizationVal;
   delete cpuUtilizationLbl;

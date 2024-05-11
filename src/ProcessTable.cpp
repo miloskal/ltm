@@ -73,24 +73,53 @@ ProcessTable(QWidget *parent) : QTableView(parent)
   parseProcessesAndUpdateTable();
   timer->start(TIMEOUT_INTERVAL);
 }
-
 void
 ProcessTable::
-restartTimer()
+cleanUp()
 {
-  timer->start(TIMEOUT_INTERVAL);
+  // destroy every Process object from the last timeout instance
+  for(auto iter = toFree->begin(); iter < toFree->end(); iter++)
+  {
+      delete *iter;
+  }
+  
+  // call destructor of every QStandardItem object from the last timeout instance
+  for(auto iter = rowsVec->begin(); iter < rowsVec->end(); iter++)
+  {
+      delete *iter;
+  }
+  toFree->clear();
+  rowsVec->clear();
+  dataModel->clear();
+
+  // call destructor of every list (row) in 'lists'
+  for(auto iter = lists->begin(); iter < lists->end(); iter++)
+  {
+      delete *iter;
+  }
+  lists->clear();
 }
 
 ProcessTable::
 ~ProcessTable()
 {
   delete timer;
+  cleanUp();
   delete killSelectedProcesses;
   delete rowHoverDelegate;
   delete rowsVec;
   delete dataModel;
   delete processes;
   delete columnNames;
+  delete toFree;
+  delete lists;
+}
+
+void
+ProcessTable::
+restartTimer()
+{
+  timer->start(TIMEOUT_INTERVAL);
 }
 
 void 
@@ -149,28 +178,7 @@ updateTable()
   vSliderValue = vSlider->value();
   selected = selectedIndexes();
   
-  // destroy every Process object from the last timeout instance
-  for(auto iter = toFree->begin(); iter < toFree->end(); iter++)
-  {
-      delete *iter;
-  }
-  
-  // call destructor of every QStandardItem object from the last timeout instance
-  for(auto iter = rowsVec->begin(); iter < rowsVec->end(); iter++)
-  {
-      delete *iter;
-  }
-  toFree->clear();
-  rowsVec->clear();
-  dataModel->clear();
-
-  // call destructor of every list (row) in 'lists'
-  for(auto iter = lists->begin(); iter < lists->end(); iter++)
-  {
-      delete *iter;
-  }
-  lists->clear();
-  
+  cleanUp();
 
   dataModel->setHorizontalHeaderLabels(*columnNames);
   memoryUtilization = 0;
