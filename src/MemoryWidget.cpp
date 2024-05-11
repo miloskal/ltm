@@ -52,8 +52,6 @@ MemoryWidget(QWidget* parent) : AbstractGraph(parent)
   lbl = tr("Time (sec)");
   graph->xAxis->setLabel(lbl);
   
-  auto conPen = new QPen(Qt::red);
-  conPen->setStyle(Qt::DashLine);
   graph->graph(0)->setPen(QPen(Qt::blue));
   graph->graph(0)->setBrush(QBrush(QColor(0,0,255,20)));
 

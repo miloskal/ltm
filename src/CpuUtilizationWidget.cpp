@@ -21,7 +21,7 @@ CpuUtilizationWidget(QWidget *parent) : AbstractGraph(parent)
   cpuTemperatureLbl->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
   cpuTemperatureVal->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 
-  auto conPen = new QPen(Qt::red);  
+  conPen = new QPen(Qt::red);  
   conPen->setStyle(Qt::DashLine);
   conPen->setColor(QColor(255,0,0,100));
   graph->graph(0)->setPen(QPen(Qt::blue));
@@ -74,6 +74,7 @@ CpuUtilizationWidget(QWidget *parent) : AbstractGraph(parent)
 CpuUtilizationWidget::
 ~CpuUtilizationWidget()
 {
+  delete conPen;
   delete cpuUtilizationVal;
   delete cpuUtilizationLbl;
 }

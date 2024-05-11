@@ -12,6 +12,7 @@ private:
          *cpuTemperatureLbl,
          *cpuTemperatureVal;
   QFont *font;
+  QPen *conPen;
   int cpuCores;
   QVector<double> y1; // vector for temperature samples
   double cpuUtilization, cpuTemperature;

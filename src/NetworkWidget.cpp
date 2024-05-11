@@ -66,8 +66,6 @@ NetworkWidget(QWidget* parent) : AbstractGraph(parent)
   graph->xAxis->setLabel(lbl);
   
   // style graph
-  auto conPen = new QPen(Qt::red);
-  conPen->setStyle(Qt::DashLine);
   graph->graph(0)->setPen(QPen(Qt::blue));
   graph->graph(0)->setBrush(QBrush(QColor(0,0,255,20)));
   graph->graph(1)->setPen(QPen(Qt::red));
