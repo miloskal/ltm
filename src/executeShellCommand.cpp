@@ -5,7 +5,7 @@ executeShellCommand(const char* cmd)
 {
   char buffer[256];
   std::string result = "";
-  FILE* pipe = popen(cmd, "r");
+  FILE* pipe = popen(cmd, "re");
   if (!pipe) throw std::runtime_error("popen() failed!");
   try
   {
