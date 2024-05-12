@@ -153,8 +153,6 @@ void
 ProcessTable::
 parseProcesses()
 {
-  //for(auto iter = processes->begin(); iter < processes->end(); iter++)
-    //delete *iter;
   processes->clear();
   std::string allLines, line;
   if(filter == "")
@@ -306,17 +304,21 @@ void
 ProcessTable::
 getCpuUtilization()
 {
-  long long userTime, niceTime, systemTime, totalUtilization;
-
-  std::string s = executeShellCommand(SHELLCMD_GET_CPU_USAGE);
-  std::istringstream ss(s);
-  ss >> userTime >> niceTime >> systemTime;
+  unsigned long long userTime, niceTime, systemTime, totalUtilization;
+  char buf[BUFSIZE];
+  FILE *f = fopen("/proc/stat", "r");
+  if(!f)
+    exit(46);
+  if(!fgets(buf, BUFSIZE, f))
+    exit(47);
+  sscanf(buf, "cpu %llu %llu %llu", &userTime, &niceTime, &systemTime);
   totalUtilization = userTime + niceTime + systemTime;
   cpuUtilization = (totalUtilization - lastCpuUtilizationSample) / ((double)cpuCores) * cpuCorrectionFactor;
   if(cpuUtilization > 100)
     cpuUtilization = 100;
   lastCpuUtilizationSample = totalUtilization;
   emit cpuUtilizationChanged(cpuUtilization);
+  fclose(f);
 }
 
 void 
@@ -372,6 +374,7 @@ addProcessToVector(std::string line)
     processes->push_back(*p);
   }
 }
+
 
 void 
 ProcessTable::

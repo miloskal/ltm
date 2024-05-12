@@ -3,6 +3,7 @@
 #include <sstream>
 #include <iostream>
 #include "../include/ShellCommands.h"
+#include "../include/Constants.h"
 
 CpuUtilizationWidget::
 CpuUtilizationWidget(QWidget *parent) : AbstractGraph(parent)
@@ -98,16 +99,20 @@ void
 CpuUtilizationWidget::
 getCpuUtilization()
 {
-  long long userTime, niceTime, systemTime, totalUtilization;
-
-  std::string s = executeShellCommand(SHELLCMD_GET_CPU_USAGE);
-  std::istringstream ss(s);
-  ss >> userTime >> niceTime >> systemTime;
+  unsigned long long userTime, niceTime, systemTime, totalUtilization;
+  char buf[BUFSIZE];
+  FILE *f = fopen("/proc/stat", "r");
+  if(!f)
+    exit(49);
+  if(!fgets(buf, BUFSIZE, f)) 
+    exit(50);
+  sscanf(buf, "cpu %llu %llu %llu", &userTime, &niceTime, &systemTime);
   totalUtilization = userTime + niceTime + systemTime;
   cpuUtilization = (totalUtilization - lastCpuUtilizationSample) / ((double)cpuCores) * cpuCorrectionFactor;
   if(cpuUtilization > 100)
     cpuUtilization = 100;
   lastCpuUtilizationSample = totalUtilization;
+  fclose(f);
 }
 
 void
