@@ -14,7 +14,7 @@ ProcessTable::
 ProcessTable(QWidget *parent) : QTableView(parent)
 {
   // core
-  cpuCores = std::stoi(executeShellCommand(SHELLCMD_GET_NUMBER_OF_CPU_CORES));
+  cpuCores = sysconf(_SC_NPROCESSORS_ONLN);
   if(cpuCores == 0)
     exit(1);
   columnNames = new QStringList;

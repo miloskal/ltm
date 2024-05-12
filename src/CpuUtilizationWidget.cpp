@@ -8,7 +8,7 @@ CpuUtilizationWidget::
 CpuUtilizationWidget(QWidget *parent) : AbstractGraph(parent)
 {
   graph->addGraph();
-  cpuCores = std::stoi(executeShellCommand(SHELLCMD_GET_NUMBER_OF_CPU_CORES));
+  cpuCores = sysconf(_SC_NPROCESSORS_ONLN);
   graph->yAxis->setRange(0, 100);
   graph->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
   auto labelsWidget = new QWidget(this);
