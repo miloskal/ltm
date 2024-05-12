@@ -106,14 +106,31 @@ getRAM()
   return -1;
 }
 
+long long
+MemoryWidget::
+getUsedMemory()
+{
+  long long memAvailable;
+  char buf[BUFSIZE];
+  FILE *f = fopen("/proc/meminfo", "r");
+  while(fgets(buf, BUFSIZE, f)){
+    if(sscanf(buf, "MemAvailable: %lld kB", &memAvailable) == 1){
+      fclose(f);
+      return totalMemory - memAvailable;
+    }
+    continue;
+  }
+  fclose(f);
+  return -1;
+}
+
 void 
 MemoryWidget::
 getMemoryStatus()
 {
   long long newTemp;
   double newTemp2 = -1;
-  std::string mem = executeShellCommand(SHELLCMD_GET_USED_MEMORY);
-  newTemp = std::stoll(mem);
+  newTemp = getUsedMemory();
   if(yUnit == UNIT_GIGABYTE)
     newTemp2 = newTemp / KILOBYTES_IN_GIGABYTE;
   else if(yUnit == UNIT_MEGABYTE)

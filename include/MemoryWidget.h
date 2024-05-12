@@ -13,6 +13,7 @@ private:
   QString totalMemoryQString;
 
   long long getRAM();
+  long long getUsedMemory();
   void updateGraph(int oldFrameSize, int newFrameSize) override;
   void initializeVectors(int frameSize) override;
 private slots:
