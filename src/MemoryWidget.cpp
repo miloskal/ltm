@@ -32,8 +32,7 @@ MemoryWidget(QWidget* parent) : AbstractGraph(parent)
   memLyt->addWidget(memLbl);
   memLyt->addWidget(memVal);
   
-  std::string buf = executeShellCommand(SHELLCMD_GET_TOTAL_MEMORY);
-  totalMemory = std::stoll(buf);
+  totalMemory = getRAM();
 
   if(totalMemory >= KILOBYTES_IN_GIGABYTE){
     graph->yAxis->setRange(0, totalMemory / KILOBYTES_IN_GIGABYTE + 1);
@@ -87,6 +86,25 @@ initializeVectors(int n)
   }
 }
 
+long long
+MemoryWidget::
+getRAM()
+{
+  long long mem;
+  char buf[BUFSIZE];
+  FILE *f = fopen("/proc/meminfo", "r");
+  if(!f)
+    exit(52);
+  while(fgets(buf, BUFSIZE, f)){
+    if(sscanf(buf, "MemTotal: %lld kB", &mem) == 1){
+      fclose(f);
+      return mem;
+    }
+    continue;
+  }
+  fclose(f);
+  return -1;
+}
 
 void 
 MemoryWidget::
