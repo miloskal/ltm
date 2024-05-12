@@ -45,7 +45,7 @@ For some other system configurations, minimal changes of `SHELLCMD_` macros may 
 
 - CPU utilization is calculated from `/proc/stat` file
 - CPU temperature is obtained from `sensors`(`lm-sensors` package) output
-- Memory Utilization is obtained by `free` command in bash
+- Memory Utilization is obtained from `/proc/meminfo` file
 - Network bandwidth is calculated by iterating through all network interfaces in
 `/sys/class/net` directory
 - Processes in processes tab are parsed from `top` output
