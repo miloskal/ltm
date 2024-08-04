@@ -1,15 +1,18 @@
 #define error_fatal(msg) do{fprintf(stderr, "%s:%d:%s\n", __FILE__, __LINE__, msg); \
                       exit(EXIT_FAILURE);} while(0)
 
+#define BASE_CPU_TEMPERATURE_PATH "/sys/class/hwmon"
+
 #include "../include/CpuUtilizationWidget.h"
 #include <unistd.h> // for sysconf, fork, pipe
 #include <string.h> // strstr, strchr
 #include <ctype.h> // isdigit
 #include <sys/wait.h> // wait
+#include <sys/types.h> // opendir
+#include <dirent.h> // readdir
 #include <sstream>
 #include <iostream>
 #include "../include/ShellCommands.h"
-#include "../include/Constants.h"
 
 CpuUtilizationWidget::
 CpuUtilizationWidget(QWidget *parent) : AbstractGraph(parent)
@@ -67,6 +70,8 @@ CpuUtilizationWidget(QWidget *parent) : AbstractGraph(parent)
     exit(34);
   cpuCorrectionFactor = 100 / cpuUnit;
 
+  getCpuTemperaturePath(cpuTemperatureFile);
+  // printf("Cpu Temperature file: %s\n", cpuTemperatureFile);
   initializeVectors(frameSize);
   lastCpuUtilizationSample = 0;
   getCpuUtilization();
@@ -121,54 +126,73 @@ getCpuUtilization()
   fclose(f);
 }
 
+void CpuUtilizationWidget::
+getCpuTemperaturePath(char *path)
+{
+  char path_temp[BUFSIZE], file_path[BUFSIZE], buf[BUFSIZE], *t;
+  struct dirent *entry, *entry_temp;
+  DIR *d, *d_temp;
+  FILE *f;
+  
+  if((d = opendir(BASE_CPU_TEMPERATURE_PATH)) == NULL)
+    error_fatal("opendir");
+
+  while((entry = readdir(d)) != NULL){ // for each entry in /sys/class/hwmon
+    if(!strstr(entry->d_name, "hwmon") || (entry->d_type != DT_DIR && entry->d_type != DT_LNK))
+      continue;
+    snprintf(path_temp, BUFSIZE, "%s/%s", BASE_CPU_TEMPERATURE_PATH, entry->d_name);
+    if((d_temp = opendir(path_temp)) == NULL)
+      error_fatal("opendir");
+    while((entry_temp = readdir(d_temp)) != NULL){ // for each entry in /sys/class/hwmon/hwmonX
+      if(!strstr(entry_temp->d_name, "label")) // we need file called '*label*' 
+        continue;
+      snprintf(file_path, BUFSIZE, "%s/%s", path_temp, entry_temp->d_name);
+      if((f = fopen(file_path, "r")) == NULL)
+        error_fatal("fopen");
+      if(!fgets(buf, BUFSIZE, f))
+        error_fatal("fgets");
+      if(strstr(buf, "Tctl")){ // check if '*label*' file content is 'Tctl'
+        strncpy(path, file_path, BUFSIZE);
+        t = strstr(path, "label");
+        strncpy(t, "input", 6);
+        fclose(f);
+        closedir(d_temp);
+        closedir(d);
+        return;
+      }
+      fclose(f);
+    }
+    closedir(d_temp);
+  }
+  closedir(d);
+  fprintf(stderr, "ERROR: Couldn't find file containing 'Tctl'\n");
+  exit(90);
+}
 
 void
 CpuUtilizationWidget::
 getCpuTemperature()
 {
-  int fd[2], ret;
-  pid_t pid;
-  char buf[BUFSIZE], res[BUFSIZE];
-  char *p1, *p2;
+  FILE *f;
+  char buf[BUFSIZE], *z;
+  int n, whole, decimal;
+  if((f = fopen(cpuTemperatureFile, "r")) == NULL)
+    error_fatal("fopen");
+  
+  if(!fgets(buf, BUFSIZE, f))
+    error_fatal("fgets");
 
-  if(pipe(fd))
-    error_fatal("pipe");
-
-  pid = fork();
-  if(pid < 0)
-    error_fatal("fork");
-
-  else if(pid > 0){ // parent
-    ::close(fd[1]);
-    memset(res, 0, BUFSIZE);
-    wait(NULL); // wait for child to finish
-    while((ret = read(fd[0], buf, BUFSIZE)) > 0){
-      if((p1 = strstr(buf, "Tctl")) != NULL){
-        p2 = strchr(p1, '.');
-        if(!p2)
-          error_fatal("strchr");
-        while(!isdigit(*p1))
-          ++p1;
-        strncpy(res, p1, p2 - p1 + 5);
-        *(p2 + 2) = 0;
-        cpuTemperature = atof(p1);
-        cpuTemperatureVal->setText(QString::fromStdString(res));
-        ::close(fd[0]);
-        return;
-      }
-    }
-    if(ret < 0)
-      error_fatal("read");
-  }
-  else{ // child
-    ::close(fd[0]);
-    if(dup2(fd[1], STDOUT_FILENO) != STDOUT_FILENO)
-      error_fatal("dup2");
-    ::close(fd[1]);
-    char* const argv1[] = {"sensors", NULL};
-    if(execvp("sensors", argv1) == -1)
-      error_fatal("execvp");
-  }
+  z = strchr(buf, '\n');
+  *z = 0;
+  n = atoi(buf);
+  whole = n / 1000;
+  decimal = n / 100 % 10;
+  cpuTemperature = whole + (double)decimal / 10; 
+  
+  snprintf(buf, 9, "%.1lf °C", cpuTemperature); 
+  cpuTemperatureVal->setText(QString::fromStdString(buf));
+  
+  fclose(f);
 }
 
 void

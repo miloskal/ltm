@@ -6,13 +6,13 @@ ltm is lightweight system monitor for Linux based on Qt5.
 
 ### Prerequisites
 
-- C++ compiler, lm-sensors and Qt5 development files:
+- C++ compiler and Qt5 development files:
 ```bash
 sudo apt-get update
-sudo apt-get install g++ lm-sensors qtbase5-dev
+sudo apt-get install g++ qtbase5-dev
 ```
 
-- GNU tools like `top`, `grep`, `cat`, `tr`, `cut`, `free`, `tail` which basically come
+- GNU tools like `top`, `tr` and `tail` which basically come
 preinstalled on vast majority of Linux distros.
 
 ### Build and Install
@@ -44,9 +44,9 @@ For some other system configurations, minimal changes of `SHELLCMD_` macros may 
 ### Under the hood
 
 - CPU utilization is calculated from `/proc/stat` file
-- CPU temperature is obtained from `sensors`(`lm-sensors` package) output
+- CPU temperature is obtained from appropriate file under `/sys/class/hwmon` directory
 - Memory Utilization is obtained from `/proc/meminfo` file
-- Network bandwidth is calculated by iterating through all network interfaces in
+- Network bandwidth is calculated by iterating through network interfaces in
 `/sys/class/net` directory
 - Processes in processes tab are parsed from `top` output
 - Plotting in performance tab is done using `QCustomPlot` objects to gain maximum performance
