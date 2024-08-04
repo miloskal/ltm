@@ -4,7 +4,6 @@
 #include <QVBoxLayout>
 #include <iostream>
 #include <fstream>
-#include <QDebug>
 
 // for chdir(), opendir() and readdir()
 #include <unistd.h>
@@ -322,7 +321,6 @@ getNetworkBandwidth()
     newUpValue = networkUploadBandwidth;
   }
   if(iteration > 0){
-    qDebug() << "pushing upload sum: " + QString::number(newUpValue);
     y.push_back(newDownValue);
     y1.push_back(newUpValue);
   }

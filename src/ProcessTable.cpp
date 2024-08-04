@@ -280,13 +280,15 @@ getNetworkBandwidth()
       fp = fopen("rx_bytes", "r");
       if(fp == nullptr)
         exit(12);
-      fgets(s, BUFSIZE, fp);
+      if(!fgets(s, BUFSIZE, fp))
+        exit(95);
       sumDownload += atoll(s);
       fclose(fp);
       fp = fopen("tx_bytes", "r");
       if(fp == nullptr)
         exit(13);
-      fgets(s, BUFSIZE, fp);
+      if(!fgets(s, BUFSIZE, fp))
+        exit(96);
       sumUpload += atoll(s);
       fclose(fp);
     }

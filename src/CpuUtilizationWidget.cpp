@@ -1,5 +1,11 @@
+#define error_fatal(msg) do{fprintf(stderr, "%s:%d:%s\n", __FILE__, __LINE__, msg); \
+                      exit(EXIT_FAILURE);} while(0)
+
 #include "../include/CpuUtilizationWidget.h"
-#include <unistd.h> // for sysconf()
+#include <unistd.h> // for sysconf, fork, pipe
+#include <string.h> // strstr, strchr
+#include <ctype.h> // isdigit
+#include <sys/wait.h> // wait
 #include <sstream>
 #include <iostream>
 #include "../include/ShellCommands.h"
@@ -115,16 +121,54 @@ getCpuUtilization()
   fclose(f);
 }
 
+
 void
 CpuUtilizationWidget::
 getCpuTemperature()
 {
-  std::string s = executeShellCommand(SHELLCMD_GET_CPU_TEMPERATURE);
-  QString q = QString::fromStdString(s).remove("\n");
-  cpuTemperatureVal->setText(q);
-  std::string s2 = s.substr(0,4);
-  q = QString::fromStdString(s2);
-  cpuTemperature = q.toDouble();
+  int fd[2], ret;
+  pid_t pid;
+  char buf[BUFSIZE], res[BUFSIZE];
+  char *p1, *p2;
+
+  if(pipe(fd))
+    error_fatal("pipe");
+
+  pid = fork();
+  if(pid < 0)
+    error_fatal("fork");
+
+  else if(pid > 0){ // parent
+    ::close(fd[1]);
+    memset(res, 0, BUFSIZE);
+    wait(NULL); // wait for child to finish
+    while((ret = read(fd[0], buf, BUFSIZE)) > 0){
+      if((p1 = strstr(buf, "Tctl")) != NULL){
+        p2 = strchr(p1, '.');
+        if(!p2)
+          error_fatal("strchr");
+        while(!isdigit(*p1))
+          ++p1;
+        strncpy(res, p1, p2 - p1 + 5);
+        *(p2 + 2) = 0;
+        cpuTemperature = atof(p1);
+        cpuTemperatureVal->setText(QString::fromStdString(res));
+        ::close(fd[0]);
+        return;
+      }
+    }
+    if(ret < 0)
+      error_fatal("read");
+  }
+  else{ // child
+    ::close(fd[0]);
+    if(dup2(fd[1], STDOUT_FILENO) != STDOUT_FILENO)
+      error_fatal("dup2");
+    ::close(fd[1]);
+    char* const argv1[] = {"sensors", NULL};
+    if(execvp("sensors", argv1) == -1)
+      error_fatal("execvp");
+  }
 }
 
 void

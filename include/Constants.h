@@ -19,7 +19,7 @@
 #define TIMEOUT_INTERVAL 1000
 
 // default size for buffers
-#define BUFSIZE 1024
+#define BUFSIZE 4096
 
 // constant strings for labels
 #define UNIT_BYTE     "B"
