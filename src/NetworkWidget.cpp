@@ -1,5 +1,6 @@
 #include "../include/NetworkWidget.h"
 #include "../include/Constants.h"
+#include "../include/ErrorHandler.h"
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <iostream>
@@ -244,7 +245,7 @@ getNetworkBandwidth()
 
   dp = opendir(NETWORK_BASE_DIR);
   if(dp == nullptr)
-    exit(5);
+    error_fatal("opendir");
 
   while((entry = readdir(dp)) != nullptr)
   {
@@ -257,20 +258,20 @@ getNetworkBandwidth()
       strncat(s, entry->d_name, BUFSIZE);
       strncat(s, "/statistics/", BUFSIZE);
       if(chdir(s) != 0)
-        exit(8);
+        error_fatal("chdir");
       fp = fopen("rx_bytes", "r");
       if(fp == nullptr)
-        exit(12);
+        error_fatal("fopen");
       if (fgets(s, BUFSIZE, fp) == NULL)
-          exit(14);
+          error_fatal("fgets");
       sumDownload += atoll(s);
       fclose(fp);
       fp = fopen("tx_bytes", "r");
       if(fp == nullptr)
-        exit(13);
+        error_fatal("fopen");
       memset(s, 0, BUFSIZE);
       if (fgets(s, BUFSIZE, fp) == NULL)
-          exit(15);
+          error_fatal("fgets");
       sumUpload += atoll(s);
       fclose(fp);
     }

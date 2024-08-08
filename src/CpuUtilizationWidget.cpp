@@ -1,5 +1,3 @@
-#define error_fatal(msg) do{fprintf(stderr, "%s:%d:%s\n", __FILE__, __LINE__, msg); \
-                      exit(EXIT_FAILURE);} while(0)
 
 #define BASE_CPU_TEMPERATURE_PATH "/sys/class/hwmon"
 
@@ -13,6 +11,7 @@
 #include <sstream>
 #include <iostream>
 #include "../include/ShellCommands.h"
+#include "../include/ErrorHandler.h"
 
 CpuUtilizationWidget::
 CpuUtilizationWidget(QWidget *parent) : AbstractGraph(parent)
@@ -67,7 +66,7 @@ CpuUtilizationWidget(QWidget *parent) : AbstractGraph(parent)
 
   long cpuUnit = sysconf(_SC_CLK_TCK);
   if(cpuUnit == 0)
-    exit(34);
+    error_fatal("cpuUnit");
   cpuCorrectionFactor = 100 / cpuUnit;
 
   getCpuTemperaturePath(cpuTemperatureFile);
@@ -114,9 +113,9 @@ getCpuUtilization()
   char buf[BUFSIZE];
   FILE *f = fopen("/proc/stat", "r");
   if(!f)
-    exit(49);
+    error_fatal("fopen");
   if(!fgets(buf, BUFSIZE, f)) 
-    exit(50);
+    error_fatal("fgets");
   sscanf(buf, "cpu %llu %llu %llu", &userTime, &niceTime, &systemTime);
   totalUtilization = userTime + niceTime + systemTime;
   cpuUtilization = (totalUtilization - lastCpuUtilizationSample) / ((double)cpuCores) * cpuCorrectionFactor;
@@ -165,8 +164,7 @@ getCpuTemperaturePath(char *path)
     closedir(d_temp);
   }
   closedir(d);
-  fprintf(stderr, "ERROR: Couldn't find file containing 'Tctl'\n");
-  exit(90);
+  error_fatal("Couldn't find file containing 'Tctl'");
 }
 
 void

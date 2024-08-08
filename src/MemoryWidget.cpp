@@ -1,6 +1,7 @@
 #include "../include/MemoryWidget.h"
 #include "../include/Constants.h"
 #include "../include/ShellCommands.h"
+#include "../include/ErrorHandler.h"
 
 #include <QHBoxLayout>
 #include <QVBoxLayout>
@@ -45,7 +46,7 @@ MemoryWidget(QWidget* parent) : AbstractGraph(parent)
     totalMemoryQString = QString::number(totalMemory / KILOBYTES_IN_MEGABYTE, 'd', 1);
   }
   else
-    exit(23);
+    error_fatal("totalMemory");
   QString lbl = "Usage (" + yUnit + ")";
   graph->yAxis->setLabel(lbl);
   lbl = tr("Time (sec)");
@@ -94,7 +95,7 @@ getRAM()
   char buf[BUFSIZE];
   FILE *f = fopen("/proc/meminfo", "r");
   if(!f)
-    exit(52);
+    error_fatal("fopen");
   while(fgets(buf, BUFSIZE, f)){
     if(sscanf(buf, "MemTotal: %lld kB", &mem) == 1){
       fclose(f);

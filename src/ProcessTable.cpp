@@ -9,6 +9,7 @@
 #include <Qt> // for Qt::LeftButton
 #include "../include/Constants.h"
 #include "../include/ShellCommands.h"
+#include "../include/ErrorHandler.h"
 
 ProcessTable::
 ProcessTable(QWidget *parent) : QTableView(parent)
@@ -16,7 +17,7 @@ ProcessTable(QWidget *parent) : QTableView(parent)
   // core
   cpuCores = sysconf(_SC_NPROCESSORS_ONLN);
   if(cpuCores == 0)
-    exit(1);
+    error_fatal("sysconf");
   columnNames = new QStringList;
   *columnNames << "PID" << "Name" << "User" << "CPU %" << "Memory %";
   filter = "";
@@ -27,7 +28,7 @@ ProcessTable(QWidget *parent) : QTableView(parent)
   sortCriterion = SORT_NONE;
   long cpuUnit = sysconf(_SC_CLK_TCK);
   if(cpuUnit == 0)
-    exit(34);
+    error_fatal("sysconf");
   cpuCorrectionFactor = 100 / cpuUnit;
 
   // vectors to store pointers to - avoiding memory leak
@@ -262,7 +263,7 @@ getNetworkBandwidth()
 
   dp = opendir(NETWORK_BASE_DIR);
   if(dp == nullptr)
-    exit(5);
+    error_fatal("opendir");
 
   while((entry = readdir(dp)) != nullptr)
   {
@@ -276,19 +277,19 @@ getNetworkBandwidth()
       strcat(s, "/");
       strcat(s, "statistics/");
       if(chdir(s) != 0)
-        exit(8);
+        error_fatal("chdir");
       fp = fopen("rx_bytes", "r");
       if(fp == nullptr)
-        exit(12);
+        error_fatal("fopen");
       if(!fgets(s, BUFSIZE, fp))
-        exit(95);
+        error_fatal("fgets");
       sumDownload += atoll(s);
       fclose(fp);
       fp = fopen("tx_bytes", "r");
       if(fp == nullptr)
-        exit(13);
+        error_fatal("fopen");
       if(!fgets(s, BUFSIZE, fp))
-        exit(96);
+        error_fatal("fgets");
       sumUpload += atoll(s);
       fclose(fp);
     }
@@ -310,9 +311,9 @@ getCpuUtilization()
   char buf[BUFSIZE];
   FILE *f = fopen("/proc/stat", "r");
   if(!f)
-    exit(46);
+    error_fatal("fopen");
   if(!fgets(buf, BUFSIZE, f))
-    exit(47);
+    error_fatal("fgets");
   sscanf(buf, "cpu %llu %llu %llu", &userTime, &niceTime, &systemTime);
   totalUtilization = userTime + niceTime + systemTime;
   cpuUtilization = (totalUtilization - lastCpuUtilizationSample) / ((double)cpuCores) * cpuCorrectionFactor;
@@ -387,7 +388,7 @@ onKillSelectedProcesses()
   {
     row = selectIndex->row();
     if(kill(processes->at(row).getPid(), SIGTERM) != 0)
-      exit(1);
+      error_fatal("kill");
   }
 }
 
