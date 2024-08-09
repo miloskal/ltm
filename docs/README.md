@@ -38,6 +38,7 @@ Eventually, you may need to enable execution of `ltm` binary by `chmod +x ltm`.
 * Ryzen 7 4700u CPU, Kubuntu 22.04
 * Ryzen 7 5800u CPU, Kubuntu 22.04
 * Ryzen 7 7840u CPU, Kubuntu 23.10 / 24.04
+* Raspberry Pi 5 (ARM Cortex A76), Ubuntu 24.04 
 
 For some other system configurations, minimal changes of `SHELLCMD_` macros may be needed in `include/ShellCommands.h` in order for application to work properly.
 

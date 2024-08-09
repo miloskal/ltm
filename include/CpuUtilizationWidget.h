@@ -23,6 +23,9 @@ private:
   long cpuCorrectionFactor;
   void getCpuUtilization();
   void getCpuTemperaturePath(char *path);
+#if defined(__aarch64__) || defined(_M_ARM64)
+  void getCpuTemperaturePath(char *hwmonDir, char *path);
+#endif
   void getCpuTemperature();
   void updateWidget();
   void initializeVectors(int n) override;

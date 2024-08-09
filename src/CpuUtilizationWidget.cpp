@@ -125,10 +125,30 @@ getCpuUtilization()
   fclose(f);
 }
 
+#if defined(__aarch64__) || defined(_M_ARM64)
+void CpuUtilizationWidget::
+getCpuTemperaturePath(char *hwmonDir, char *path)
+{
+  DIR *d;
+  struct dirent *entry;
+
+  if((d = opendir(hwmonDir)) == NULL)
+    error_fatal("opendir");
+  while((entry = readdir(d)) != NULL){
+    if(strstr(entry->d_name, "temp") != entry->d_name)
+      continue;
+    snprintf(path, BUFSIZE, "%s/%s", hwmonDir, entry->d_name);
+    closedir(d);
+    return;
+  }
+  error_fatal("getCpuTemperaturePath(arg1, arg2)");
+}
+#endif
+
 void CpuUtilizationWidget::
 getCpuTemperaturePath(char *path)
 {
-  char path_temp[BUFSIZE], file_path[BUFSIZE], buf[BUFSIZE], *t;
+  char path_temp[BUFSIZE], file_path[BUFSIZE], buf[BUFSIZE]; 
   struct dirent *entry, *entry_temp;
   DIR *d, *d_temp;
   FILE *f;
@@ -143,6 +163,23 @@ getCpuTemperaturePath(char *path)
     if((d_temp = opendir(path_temp)) == NULL)
       error_fatal("opendir");
     while((entry_temp = readdir(d_temp)) != NULL){ // for each entry in /sys/class/hwmon/hwmonX
+    #if defined(__aarch64__) || defined(_M_ARM64)
+      if(strcmp(entry_temp->d_name, "name")) // we need file called 'name'
+        continue;
+      snprintf(file_path, BUFSIZE, "%s/%s", path_temp, entry_temp->d_name);
+      if((f = fopen(file_path, "r")) == NULL)
+        error_fatal("fopen");
+      if(!fgets(buf, BUFSIZE, f))
+        error_fatal("fgets");
+      if(strstr(buf, "cpu_thermal")){
+        fclose(f);
+        closedir(d_temp);
+        closedir(d);
+        getCpuTemperaturePath(path_temp, path);
+        return;
+      }
+    }
+    #else
       if(!strstr(entry_temp->d_name, "label")) // we need file called '*label*' 
         continue;
       snprintf(file_path, BUFSIZE, "%s/%s", path_temp, entry_temp->d_name);
@@ -152,7 +189,7 @@ getCpuTemperaturePath(char *path)
         error_fatal("fgets");
       if(strstr(buf, "Tctl")){ // check if '*label*' file content is 'Tctl'
         strncpy(path, file_path, BUFSIZE);
-        t = strstr(path, "label");
+        char *t = strstr(path, "label");
         strncpy(t, "input", 6);
         fclose(f);
         closedir(d_temp);
@@ -161,6 +198,7 @@ getCpuTemperaturePath(char *path)
       }
       fclose(f);
     }
+    #endif
     closedir(d_temp);
   }
   closedir(d);
