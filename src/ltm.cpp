@@ -1,6 +1,6 @@
-#include "../include/ltm.h"
-#include "../include/NetworkWidget.h"
-#include "../include/CpuUtilizationWidget.h"
+#include "ltm.h"
+#include "NetworkWidget.h"
+#include "CpuUtilizationWidget.h"
 
 TaskManager::
 TaskManager(QWidget *parent) : QMainWindow(parent)

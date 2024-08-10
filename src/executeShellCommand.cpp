@@ -1,4 +1,4 @@
-#include "../include/executeShellCommand.h"
+#include "executeShellCommand.h"
 
 std::string
 executeShellCommand(const char* cmd)

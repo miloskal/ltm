@@ -1,7 +1,4 @@
-
-#define BASE_CPU_TEMPERATURE_PATH "/sys/class/hwmon"
-
-#include "../include/CpuUtilizationWidget.h"
+#include "CpuUtilizationWidget.h"
 #include <unistd.h> // for sysconf, fork, pipe
 #include <string.h> // strstr, strchr
 #include <ctype.h> // isdigit
@@ -10,8 +7,8 @@
 #include <dirent.h> // readdir
 #include <sstream>
 #include <iostream>
-#include "../include/ShellCommands.h"
-#include "../include/ErrorHandler.h"
+#include "ShellCommands.h"
+#include "ErrorHandler.h"
 
 CpuUtilizationWidget::
 CpuUtilizationWidget(QWidget *parent) : AbstractGraph(parent)

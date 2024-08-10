@@ -1,4 +1,4 @@
-#include "../include/RowHoverDelegate.h"
+#include "RowHoverDelegate.h"
 
 RowHoverDelegate::RowHoverDelegate(QObject *parent) : QStyledItemDelegate(parent)
 {

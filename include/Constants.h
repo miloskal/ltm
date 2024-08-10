@@ -12,6 +12,9 @@
 // file from which cpu utilization is being calculated
 #define CPU_USAGE_FILE "/proc/stat"
 
+// directory from which we start looking for cpu sensor value
+#define BASE_CPU_TEMPERATURE_PATH "/sys/class/hwmon"
+
 // number of columns in process table
 #define COLUMNS_NUM 5
 

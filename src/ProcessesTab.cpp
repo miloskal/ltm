@@ -1,4 +1,4 @@
-#include "../include/ProcessesTab.h"
+#include "ProcessesTab.h"
 
 ProcessesTab::
 ProcessesTab(QWidget *parent) : QWidget(parent)

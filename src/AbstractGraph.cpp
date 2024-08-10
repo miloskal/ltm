@@ -1,4 +1,4 @@
-#include "../include/AbstractGraph.h"
+#include "AbstractGraph.h"
 
 #include <QTimer>
 #include <QAction>

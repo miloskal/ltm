@@ -1,4 +1,4 @@
-#include "../include/ltm.h"
+#include "ltm.h"
 #include <QApplication>
 #include <QIcon>
 

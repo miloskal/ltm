@@ -4,7 +4,7 @@
 
 TEMPLATE = app
 TARGET = ltm
-INCLUDEPATH += .
+INCLUDEPATH += include
 
 CONFIG += optimize_full
 

@@ -1,4 +1,7 @@
-#include "../include/ProcessTable.h"
+#include "ProcessTable.h"
+#include "Constants.h"
+#include "ShellCommands.h"
+#include "ErrorHandler.h"
 #include <QList>
 #include <QTimer>
 #include <algorithm>
@@ -7,9 +10,6 @@
 #include <QMouseEvent>
 #include <QGuiApplication> // for QGuiApplication::mouseButtons
 #include <Qt> // for Qt::LeftButton
-#include "../include/Constants.h"
-#include "../include/ShellCommands.h"
-#include "../include/ErrorHandler.h"
 
 ProcessTable::
 ProcessTable(QWidget *parent) : QTableView(parent)

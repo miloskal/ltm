@@ -1,7 +1,7 @@
-#include "../include/MemoryWidget.h"
-#include "../include/Constants.h"
-#include "../include/ShellCommands.h"
-#include "../include/ErrorHandler.h"
+#include "MemoryWidget.h"
+#include "Constants.h"
+#include "ShellCommands.h"
+#include "ErrorHandler.h"
 
 #include <QHBoxLayout>
 #include <QVBoxLayout>
