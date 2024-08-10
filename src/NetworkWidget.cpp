@@ -262,7 +262,7 @@ getNetworkBandwidth()
       fp = fopen("rx_bytes", "r");
       if(fp == nullptr)
         error_fatal("fopen");
-      if (fgets(s, BUFSIZE, fp) == NULL)
+      if (fgets(s, BUFSIZE, fp) == nullptr)
           error_fatal("fgets");
       sumDownload += atoll(s);
       fclose(fp);
@@ -270,7 +270,7 @@ getNetworkBandwidth()
       if(fp == nullptr)
         error_fatal("fopen");
       memset(s, 0, BUFSIZE);
-      if (fgets(s, BUFSIZE, fp) == NULL)
+      if (fgets(s, BUFSIZE, fp) == nullptr)
           error_fatal("fgets");
       sumUpload += atoll(s);
       fclose(fp);

@@ -9,7 +9,7 @@ executeShellCommand(const char* cmd)
   if (!pipe) throw std::runtime_error("popen() failed!");
   try
   {
-    while (fgets(buffer, sizeof buffer, pipe) != NULL) {
+    while (fgets(buffer, sizeof buffer, pipe) != nullptr) {
       result += buffer;
     }
   }

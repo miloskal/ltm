@@ -132,9 +132,9 @@ getCpuTemperaturePath(char *hwmonDir, char *path)
   DIR *d;
   struct dirent *entry;
 
-  if((d = opendir(hwmonDir)) == NULL)
+  if((d = opendir(hwmonDir)) == nullptr)
     error_fatal("opendir");
-  while((entry = readdir(d)) != NULL){
+  while((entry = readdir(d)) != nullptr){
     if(strstr(entry->d_name, "temp") != entry->d_name)
       continue;
     snprintf(path, BUFSIZE, "%s/%s", hwmonDir, entry->d_name);
@@ -153,21 +153,21 @@ getCpuTemperaturePath(char *path)
   DIR *d, *d_temp;
   FILE *f;
   
-  if((d = opendir(BASE_CPU_TEMPERATURE_PATH)) == NULL)
+  if((d = opendir(BASE_CPU_TEMPERATURE_PATH)) == nullptr)
     error_fatal("opendir");
 
-  while((entry = readdir(d)) != NULL){ // for each entry in /sys/class/hwmon
+  while((entry = readdir(d)) != nullptr){ // for each entry in /sys/class/hwmon
     if(!strstr(entry->d_name, "hwmon") || (entry->d_type != DT_DIR && entry->d_type != DT_LNK))
       continue;
     snprintf(path_temp, BUFSIZE, "%s/%s", BASE_CPU_TEMPERATURE_PATH, entry->d_name);
-    if((d_temp = opendir(path_temp)) == NULL)
+    if((d_temp = opendir(path_temp)) == nullptr)
       error_fatal("opendir");
-    while((entry_temp = readdir(d_temp)) != NULL){ // for each entry in /sys/class/hwmon/hwmonX
+    while((entry_temp = readdir(d_temp)) != nullptr){ // for each entry in /sys/class/hwmon/hwmonX
     #if defined(__aarch64__) || defined(_M_ARM64)
       if(strcmp(entry_temp->d_name, "name")) // we need file called 'name'
         continue;
       snprintf(file_path, BUFSIZE, "%s/%s", path_temp, entry_temp->d_name);
-      if((f = fopen(file_path, "r")) == NULL)
+      if((f = fopen(file_path, "r")) == nullptr)
         error_fatal("fopen");
       if(!fgets(buf, BUFSIZE, f))
         error_fatal("fgets");
@@ -183,7 +183,7 @@ getCpuTemperaturePath(char *path)
       if(!strstr(entry_temp->d_name, "label")) // we need file called '*label*' 
         continue;
       snprintf(file_path, BUFSIZE, "%s/%s", path_temp, entry_temp->d_name);
-      if((f = fopen(file_path, "r")) == NULL)
+      if((f = fopen(file_path, "r")) == nullptr)
         error_fatal("fopen");
       if(!fgets(buf, BUFSIZE, f))
         error_fatal("fgets");
@@ -212,7 +212,7 @@ getCpuTemperature()
   FILE *f;
   char buf[BUFSIZE], *z;
   int n, whole, decimal;
-  if((f = fopen(cpuTemperatureFile, "r")) == NULL)
+  if((f = fopen(cpuTemperatureFile, "r")) == nullptr)
     error_fatal("fopen");
   
   if(!fgets(buf, BUFSIZE, f))
