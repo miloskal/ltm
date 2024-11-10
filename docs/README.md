@@ -9,7 +9,7 @@ ltm is lightweight system monitor for Linux based on Qt5.
 - C++ compiler and Qt5 development files:
 ```bash
 sudo apt-get update
-sudo apt-get install g++ qtbase5-dev
+sudo apt-get install g++ qtbase5-dev lm-sensors
 ```
 
 - GNU tools like `top`, `tr` and `tail` which basically come
@@ -37,7 +37,7 @@ Eventually, you may need to enable execution of `ltm` binary by `chmod +x ltm`.
 * Ryzen 5 3500u CPU, Kubuntu 20.04 
 * Ryzen 7 4700u CPU, Kubuntu 22.04
 * Ryzen 7 5800u CPU, Kubuntu 22.04
-* Ryzen 7 7840u CPU, Kubuntu 23.10 / 24.04
+* Ryzen 7 7840u CPU, Kubuntu 23.10, 24.04, 24.10
 * Raspberry Pi 5 (ARM Cortex A76), Ubuntu 24.04 
 
 For some other system configurations, minimal changes of `SHELLCMD_` macros may be needed in `include/ShellCommands.h` in order for application to work properly.
