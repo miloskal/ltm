@@ -184,7 +184,7 @@ getCpuTemperaturePath(char *path)
         error_fatal("fopen");
       if(!fgets(buf, BUFSIZE, f))
         error_fatal("fgets");
-      if(strstr(buf, "Tctl")){ // check if '*label*' file content is 'Tctl'
+      if(strstr(buf, "Tctl") || strstr(buf, "CPU")){ // check if '*label*' file content is 'Tctl' or 'CPU'
         strncpy(path, file_path, BUFSIZE);
         char *t = strstr(path, "label");
         strncpy(t, "input", 6);
@@ -199,7 +199,7 @@ getCpuTemperaturePath(char *path)
     closedir(d_temp);
   }
   closedir(d);
-  error_fatal("Couldn't find file containing 'Tctl'");
+  error_fatal("Couldn't find file containing 'Tctl' or 'CPU'");
 }
 
 void

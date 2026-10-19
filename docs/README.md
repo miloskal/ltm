@@ -34,11 +34,12 @@ Eventually, you may need to enable execution of `ltm` binary by `chmod +x ltm`.
 
 ### Tested on
 
-* Ryzen 5 3500u CPU, Kubuntu 20.04 
-* Ryzen 7 4700u CPU, Kubuntu 22.04
-* Ryzen 7 5800u CPU, Kubuntu 22.04
-* Ryzen 7 7840u CPU, Kubuntu 23.10, 24.04, 24.10
-* Raspberry Pi 5 (ARM Cortex A76), Ubuntu 24.04 
+* AMD Ryzen 5 3500u CPU: Kubuntu 20.04
+* AMD Ryzen 7 4700u CPU: Kubuntu 22.04
+* AMD Ryzen 7 5800u CPU: Kubuntu 22.04
+* AMD Ryzen 7 7840u CPU: Kubuntu 23.10, 24.04, 24.10, 26.04
+* Intel Core Ultra 7 255H: Ubuntu 22.04, Kubuntu 26.04
+* Raspberry Pi 5 (ARM Cortex A76): Ubuntu 24.04
 
 For some other system configurations, minimal changes of `SHELLCMD_` macros may be needed in `include/ShellCommands.h` in order for application to work properly.
 
